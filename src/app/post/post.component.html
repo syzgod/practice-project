@@ -1,9 +1,51 @@
-<div class="p-4 shadow-4 border-round mt-3 w-10 bg-cyan-900">
-  <div class="text-3xl font-medium text-900 mb-3">
-    {{ post.title }}
-  </div>
-  <div class="font-medium text-500 mb-3">{{ post.id }}</div>
-  <div style="height: 150px" class="border-2 border-dashed surface-border">
-    {{ post.body }}
-  </div>
-</div>
+<p-card
+  [header]="subscriber.name"
+  [subheader]="'#' + subscriber.id"
+  [style]="{ width: '250px' }"
+>
+  <ng-template pTemplate="header">
+    <img
+      [alt]="subscriber.name + ' picture'"
+      [src]="subscriber.avatar"
+      class="border-round"
+    />
+  </ng-template>
+  <p>
+    {{ subscriber.address }}
+  </p>
+
+  <p></p>
+
+  <p>
+    {{ subscriber.city }}
+  </p>
+  <p>
+    {{ subscriber.country }}
+  </p>
+  <ng-template pTemplate="footer">
+    <p-button
+      label="Details"
+      icon="pi pi-info-circle"
+      (click)="showDialog()"
+    ></p-button>
+  </ng-template>
+</p-card>
+<p-dialog
+  header="Header"
+  [(visible)]="visible"
+  [modal]="true"
+  [style]="{ width: '50rem' }"
+  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+>
+  <ng-template pTemplate="header">
+    <div class="inline-flex align-items-center justify-content-center gap-2">
+      <p-avatar [image]="subscriber.avatar" shape="circle" />
+      <span class="font-bold white-space-nowrap">{{ subscriber.name }}</span>
+      <p># {{ subscriber.id }}</p>
+    </div>
+  </ng-template>
+  <p class="m-0">
+    <strong class="mr-2">Creation Date:</strong>
+    {{ subscriber.accounts[0]?.created | date : "medium" }}
+  </p>
+</p-dialog>
