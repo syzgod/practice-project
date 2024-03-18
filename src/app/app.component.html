@@ -1,28 +1,45 @@
-<div class="my-4">
-  <span class="p-input-icon-left p-float-label shadow-2 mr-2">
-    <i class="pi pi-search"></i>
-    <input
-      type="text"
-      id="search"
-      pInputText
-      class="p-inputtext-sm"
-      [(ngModel)]="value"
-    />
-    <label for="search">Search</label>
-  </span>
+<div class="my-4 flex">
+  <form (ngSubmit)="onSubmit()">
+    <span class="p-input-icon-left p-float-label shadow-2 mr-2">
+      <i class="pi pi-search"></i>
+      <input
+        type="text"
+        id="search"
+        pInputText
+        name="searchField"
+        class="p-inputtext-sm"
+        [(ngModel)]="searchField"
+      />
+      <label for="search">Search</label>
+    </span>
+    <p-button type="submit" size="small" class="mr-2">Search</p-button>
+  </form>
   <p-button (click)="fetchPosts()" size="small">Get Subscribers</p-button>
 </div>
 
-<div *ngIf="subscribers" class="flex flex-wrap w-fit gap-4">
+<div
+  *ngIf="subscribers.length >= 1"
+  class="flex flex-wrap justify-content-center w-full gap-4"
+>
   <p-paginator
+    class="w-full"
     (onPageChange)="onPageChange($any($event))"
     [first]="first"
     [rows]="rows"
-    [totalRecords]="120"
+    [totalRecords]="subscribers.length"
     [rowsPerPageOptions]="[10, 20, 30]"
   ></p-paginator>
-  <app-post
-    *ngFor="let subscriber of subscribers"
-    [subscriber]="subscriber"
-  ></app-post>
+
+  <ng-container *ngIf="filteredSubscribers">
+    <app-post
+      *ngFor="let subscriber of filteredSubscribers"
+      [subscriber]="subscriber"
+    ></app-post>
+  </ng-container>
+  <ng-container *ngIf="filteredSubscribers.length === 0">
+    <app-post
+      *ngFor="let subscriber of subscribers"
+      [subscriber]="subscriber"
+    ></app-post>
+  </ng-container>
 </div>

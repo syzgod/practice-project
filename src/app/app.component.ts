@@ -38,7 +38,8 @@ interface PageEvent {
 })
 export class AppComponent {
   subscribers: Subscribers[] = [];
-  value: string = '';
+  filteredSubscribers: Subscribers[] = [];
+  searchField: string = '';
   first: number = 0;
   rows: number = 10;
 
@@ -52,13 +53,28 @@ export class AppComponent {
   }
 
   onPageChange(event: PageEvent) {
+    console.log(event);
     first: event.first;
     rows: event.rows;
   }
-
+  onSubmit() {
+    if (this.searchField === '') {
+      this.fetchPosts();
+    } else {
+      this.filteredSubscribers = this.subscribers.filter((subs) =>
+        subs.name
+          .trim()
+          .toLowerCase()
+          .includes(this.searchField.trim().toLowerCase())
+      );
+    }
+    console.log(this.subscribers);
+    console.log(this.filteredSubscribers);
+  }
   fetchPosts() {
     this.fetch.getPosts().subscribe((data) => {
       this.subscribers = data;
+      console.log(this.subscribers);
     });
   }
 }
