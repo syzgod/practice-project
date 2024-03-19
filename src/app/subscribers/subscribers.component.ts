@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { AvatarModule } from 'primeng/avatar';
@@ -6,10 +6,11 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { CommonModule } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
-import { Subscribers } from './post.model';
+import { SubDetailsComponent } from '../sub-details/sub-details.component';
+import { Subscribers } from './subscribers.model';
 
 @Component({
-  selector: 'app-post',
+  selector: 'app-subscribers',
   standalone: true,
   imports: [
     CommonModule,
@@ -18,16 +19,17 @@ import { Subscribers } from './post.model';
     DialogModule,
     AvatarModule,
     AvatarGroupModule,
+    SubDetailsComponent,
   ],
-  templateUrl: './post.component.html',
-  styleUrl: './post.component.css',
+  templateUrl: './subscribers.component.html',
+  styleUrl: './subscribers.component.css',
 })
-export class PostComponent {
+export class SubscribersComponent {
   @Input() subscriber: Subscribers = {} as Subscribers;
   visible = false;
   constructor() {}
 
-  showDialog() {
-    this.visible = true;
+  toggleDialog() {
+    this.visible = !this.visible;
   }
 }

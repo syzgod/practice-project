@@ -1,20 +1,30 @@
-<div class="my-4 flex">
-  <form (ngSubmit)="onSubmit()">
-    <span class="p-input-icon-left p-float-label shadow-2 mr-2">
-      <i class="pi pi-search"></i>
-      <input
-        type="text"
-        id="search"
-        pInputText
-        name="searchField"
-        class="p-inputtext-sm"
-        [(ngModel)]="searchField"
-      />
-      <label for="search">Search</label>
-    </span>
-    <p-button type="submit" size="small" class="mr-2">Search</p-button>
-  </form>
-  <p-button (click)="fetchPosts()" size="small">Get Subscribers</p-button>
+<div class="flex justify-content-around align-items-center h-4rem">
+  <div class="flex">
+    <form (ngSubmit)="onSubmit()">
+      <span class="p-input-icon-left p-float-label shadow-2 mr-2">
+        <i class="pi pi-search"></i>
+        <input
+          type="text"
+          id="search"
+          pInputText
+          name="searchField"
+          class="p-inputtext-sm"
+          [(ngModel)]="searchField"
+        />
+        <label for="search">Search</label>
+      </span>
+      <p-button type="submit" size="small" class="mr-2">Search</p-button>
+    </form>
+    <p-button (click)="fetchSubscribers()" size="small"
+      >Get Subscribers</p-button
+    >
+  </div>
+  <p-button
+    [icon]="theme === 'light' ? 'pi pi-moon' : 'pi pi-sun'"
+    size="large"
+    [rounded]="true"
+    (click)="onThemeChange(theme === 'light' ? 'dark' : 'light')"
+  ></p-button>
 </div>
 
 <div
@@ -28,18 +38,27 @@
     [rows]="rows"
     [totalRecords]="subscribers.length"
     [rowsPerPageOptions]="[10, 20, 30]"
+    [showCurrentPageReport]="true"
   ></p-paginator>
-
+  <!-- 
   <ng-container *ngIf="filteredSubscribers">
-    <app-post
+    <app-subscribers
       *ngFor="let subscriber of filteredSubscribers"
       [subscriber]="subscriber"
-    ></app-post>
+    ></app-subscribers>
   </ng-container>
   <ng-container *ngIf="filteredSubscribers.length === 0">
-    <app-post
+    <app-subscribers
       *ngFor="let subscriber of subscribers"
       [subscriber]="subscriber"
-    ></app-post>
-  </ng-container>
+    ></app-subscribers>
+  </ng-container> -->
+  <app-subscribers
+    *ngFor="
+      let subscriber of filteredSubscribers.length
+        ? filteredSubscribers
+        : subscribers
+    "
+    [subscriber]="subscriber"
+  ></app-subscribers>
 </div>

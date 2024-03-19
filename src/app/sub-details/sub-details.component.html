@@ -1,35 +1,3 @@
-<p-card
-  [header]="subscriber.name"
-  [subheader]="'#' + subscriber.id"
-  [style]="{ width: '250px' }"
->
-  <ng-template pTemplate="header">
-    <img
-      [alt]="subscriber.name + ' picture'"
-      [src]="subscriber.avatar"
-      class="border-round"
-    />
-  </ng-template>
-  <p>
-    {{ subscriber.address }}
-  </p>
-
-  <p></p>
-
-  <p>
-    {{ subscriber.city }}
-  </p>
-  <p>
-    {{ subscriber.country }}
-  </p>
-  <ng-template pTemplate="footer">
-    <p-button
-      label="Details"
-      icon="pi pi-info-circle"
-      (click)="showDialog()"
-    ></p-button>
-  </ng-template>
-</p-card>
 <p-dialog
   header="Header"
   [(visible)]="visible"
@@ -48,4 +16,7 @@
     <strong class="mr-2">Creation Date:</strong>
     {{ subscriber.accounts[0]?.created | date : "medium" }}
   </p>
+  <p-footer>
+    <p-button (click)="onToggleDialog()">Close</p-button>
+  </p-footer>
 </p-dialog>

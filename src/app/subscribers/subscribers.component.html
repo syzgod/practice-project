@@ -1,0 +1,36 @@
+<p-card
+  [header]="subscriber.name"
+  [subheader]="'#' + subscriber.id"
+  [style]="{ width: '250px' }"
+>
+  <ng-template pTemplate="header">
+    <img
+      [alt]="subscriber.name + ' picture'"
+      [src]="subscriber.avatar"
+      class="border-round"
+    />
+  </ng-template>
+  <p>
+    {{ subscriber.address }}
+  </p>
+
+  <p></p>
+
+  <p>
+    {{ subscriber.city }}
+  </p>
+  <p>
+    {{ subscriber.country }}
+  </p>
+  <ng-template pTemplate="footer">
+    <p-button
+      label="Details"
+      icon="pi pi-info-circle"
+      (click)="toggleDialog()"
+    ></p-button>
+  </ng-template>
+</p-card>
+<app-sub-details
+  [visible]="visible"
+  [subscriber]="subscriber"
+></app-sub-details>

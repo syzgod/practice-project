@@ -7,11 +7,12 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { CommonModule } from '@angular/common';
 import { FetchService } from './fetch.service';
 import { InputTextModule } from 'primeng/inputtext';
-import { PostComponent } from './post/post.component';
 import { PrimeNGConfig } from 'primeng/api';
 import { RouterOutlet } from '@angular/router';
 import { StyleClassModule } from 'primeng/styleclass';
-import { Subscribers } from './post/post.model';
+import { Subscribers } from './subscribers/subscribers.model';
+import { SubscribersComponent } from './subscribers/subscribers.component';
+import { ThemeService } from './theme.service';
 
 interface PageEvent {
   first: number;
@@ -28,7 +29,7 @@ interface PageEvent {
     InputTextModule,
     CheckboxModule,
     StyleClassModule,
-    PostComponent,
+    SubscribersComponent,
     CommonModule,
     FormsModule,
     PaginatorModule,
@@ -42,10 +43,12 @@ export class AppComponent {
   searchField: string = '';
   first: number = 0;
   rows: number = 10;
+  theme: string = '';
 
   constructor(
     private primengConfig: PrimeNGConfig,
-    private fetch: FetchService
+    private fetch: FetchService,
+    private themeService: ThemeService
   ) {}
 
   ngOnInit() {
@@ -59,7 +62,7 @@ export class AppComponent {
   }
   onSubmit() {
     if (this.searchField === '') {
-      this.fetchPosts();
+      this.fetchSubscribers();
     } else {
       this.filteredSubscribers = this.subscribers.filter((subs) =>
         subs.name
@@ -71,10 +74,15 @@ export class AppComponent {
     console.log(this.subscribers);
     console.log(this.filteredSubscribers);
   }
-  fetchPosts() {
-    this.fetch.getPosts().subscribe((data) => {
+  fetchSubscribers() {
+    this.fetch.getSubscribers().subscribe((data) => {
       this.subscribers = data;
       console.log(this.subscribers);
     });
+  }
+
+  onThemeChange(theme: string) {
+    this.theme = theme;
+    this.themeService.switchTheme(theme);
   }
 }
