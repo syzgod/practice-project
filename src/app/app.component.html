@@ -4,6 +4,7 @@
       <span class="p-input-icon-left p-float-label shadow-2 mr-2">
         <i class="pi pi-search"></i>
         <input
+          [disabled]="!paginatedSubscribers.length"
           type="text"
           id="search"
           pInputText
@@ -13,7 +14,13 @@
         />
         <label for="search">Search</label>
       </span>
-      <p-button type="submit" size="small" class="mr-2">Search</p-button>
+      <p-button
+        type="submit"
+        size="small"
+        class="mr-2"
+        [disabled]="!paginatedSubscribers.length || !searchField"
+        >Search</p-button
+      >
     </form>
     <p-button (click)="fetchSubscribers()" size="small"
       >Get Subscribers</p-button
@@ -40,25 +47,16 @@
     [rowsPerPageOptions]="[10, 20, 30]"
     [showCurrentPageReport]="true"
   ></p-paginator>
-  <!-- 
-  <ng-container *ngIf="filteredSubscribers">
-    <app-subscribers
-      *ngFor="let subscriber of filteredSubscribers"
-      [subscriber]="subscriber"
-    ></app-subscribers>
-  </ng-container>
-  <ng-container *ngIf="filteredSubscribers.length === 0">
-    <app-subscribers
-      *ngFor="let subscriber of subscribers"
-      [subscriber]="subscriber"
-    ></app-subscribers>
-  </ng-container> -->
-  <app-subscribers
+  <!-- <app-subscribers
     *ngFor="
       let subscriber of filteredSubscribers.length
         ? filteredSubscribers
         : subscribers
     "
+    [subscriber]="subscriber"
+  ></app-subscribers> -->
+  <app-subscribers
+    *ngFor="let subscriber of paginatedSubscribers"
     [subscriber]="subscriber"
   ></app-subscribers>
 </div>

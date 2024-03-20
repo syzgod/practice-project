@@ -1,4 +1,10 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnChanges,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormsModule, NgModel } from '@angular/forms';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 
@@ -38,8 +44,9 @@ interface PageEvent {
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  subscribers: Subscribers[] = [];
-  filteredSubscribers: Subscribers[] = [];
+  subscribers: Subscribers[] = []; // All subscribers
+  paginatedSubscribers: Subscribers[] = []; // Paginated subscribers
+  filteredSubscribers: Subscribers[] = []; // Filtered by search
   searchField: string = '';
   first: number = 0;
   rows: number = 10;
@@ -59,6 +66,10 @@ export class AppComponent {
     console.log(event);
     first: event.first;
     rows: event.rows;
+    this.paginatedSubscribers = this.subscribers.slice(
+      event.first,
+      event.first + event.rows
+    );
   }
   onSubmit() {
     if (this.searchField === '') {
@@ -70,13 +81,20 @@ export class AppComponent {
           .toLowerCase()
           .includes(this.searchField.trim().toLowerCase())
       );
+      this.paginatedSubscribers = this.filteredSubscribers;
     }
+    console.log(this.paginatedSubscribers);
     console.log(this.subscribers);
     console.log(this.filteredSubscribers);
   }
+
   fetchSubscribers() {
     this.fetch.getSubscribers().subscribe((data) => {
       this.subscribers = data;
+      this.paginatedSubscribers = this.subscribers.slice(
+        this.first,
+        this.first + this.rows
+      );
       console.log(this.subscribers);
     });
   }
@@ -84,5 +102,9 @@ export class AppComponent {
   onThemeChange(theme: string) {
     this.theme = theme;
     this.themeService.switchTheme(theme);
+  }
+
+  onSubscriberChange(event: any) {
+    console.log(event);
   }
 }
